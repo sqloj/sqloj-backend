@@ -18,12 +18,13 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2")
     implementation("org.mariadb.jdbc:mariadb-java-client:3.0.4")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.8")
+
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {

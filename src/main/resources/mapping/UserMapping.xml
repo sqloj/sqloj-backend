@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pers.sy.sqloj.mapper.UserMapper">
+
+    <resultMap id="user" type="pers.sy.sqloj.entity.UserDO">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="department" property="department"/>
+        <result column="role" property="role"/>
+    </resultMap>
+
+    <select id="list" resultMap="user">
+        select * from `user`
+    </select>
+
+    <select id="findByID" resultMap="user">
+        select *
+        from `user`
+        where id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into `user` values
+        (#{id}, #{username}, #{password}, #{department}, #{role})
+    </insert>
+
+    <update id="update">
+        update `user` t
+        set t.password   = #{password},
+            t.department = #{department}
+        where t.id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from `user` where id = #{id}
+    </delete>
+
+</mapper>

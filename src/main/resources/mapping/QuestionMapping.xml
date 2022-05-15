@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pers.sy.sqloj.mapper.QuestionMapper">
+
+    <resultMap id="question" type="pers.sy.sqloj.entity.QuestionDO">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="answer" property="answer"/>
+        <result column="testcase_id" property="testcaseID"/>
+    </resultMap>
+
+    <resultMap id="question_testcase" type="pers.sy.sqloj.entity.QuestionVO">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="answer" property="answer"/>
+        <result column="testcase_id" property="testcaseID"/>
+        <result column="label" property="label"/>
+        <result column="abstract" property="abstract"/>
+        <result column="lang" property="lang"/>
+    </resultMap>
+
+
+
+    <sql id="selectAll">
+        select
+            question.id,
+            question.content,
+            answer,
+            testcase_id,
+            abstract,
+            testcase.label,
+            testcase.lang
+        from question
+        join testcase on question.testcase_id = testcase.id
+    </sql>
+
+    <select id="list" resultMap="question">
+        select * from question
+    </select>
+
+
+    <select id="listWithTestcase" resultMap="question_testcase">
+        <include refid="selectAll"/>
+    </select>
+
+    <select id="getByID" resultMap="question_testcase">
+        <include refid="selectAll"/>
+        where question.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into `question` values
+        (null, #{content}, #{answer}, #{testcaseID})
+    </insert>
+
+    <update id="update">
+        update `question` t
+        set t.content     = #{content},
+            t.answer      = #{answer},
+            t.testcase_id = #{testcaseID}
+        where t.id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from `question` where id = #{id}
+    </delete>
+
+</mapper>
