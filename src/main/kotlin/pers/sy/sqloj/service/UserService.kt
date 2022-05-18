@@ -59,4 +59,8 @@ class UserService
         }
         userMapper.insert(user)
     }
+
+    fun filter(id: String?, username: String?, department: String?): List<UserDO> {
+        return userMapper.filter(id, username, department)
+    }
 }

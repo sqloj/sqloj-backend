@@ -8,6 +8,8 @@ set collation_database = utf8_general_ci;
 set collation_server = utf8_general_ci;
 set time_zone = "+8:00";
 
+CREATE DATABASE sqloj;
+
 USE sqloj;
 
 CREATE TABLE `user` (
@@ -55,9 +57,9 @@ INSERT INTO question VALUES
 
 CREATE TABLE record (
     `id`           int auto_increment primary key,
-    `user_id`      int,
+    `user_id`      nvarchar(32),
     `question_id`  int,
-    `content`      text,
+    `code`         text,
     `result`       int,
     `time`         datetime
 );

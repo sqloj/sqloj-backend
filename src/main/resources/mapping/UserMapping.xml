@@ -23,6 +23,22 @@
         where id = #{id}
     </select>
 
+    <select id="filter" resultMap="user">
+        select *
+        from `user`
+        <where>
+            <if test="id!=null and id!=''">
+                and id = #{id}
+            </if>
+            <if test="username!=null and username!=''">
+                and username like concat('%', #{username}, '%')
+            </if>
+            <if test="department!=null and department!=''">
+                and department like concat('%', #{department}, '%')
+            </if>
+        </where>
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into `user` values
         (#{id}, #{username}, #{password}, #{department}, #{role})

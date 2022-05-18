@@ -13,3 +13,10 @@ spring:
 mybatis:
   mapper-locations: classpath:mapping/*Mapping.xml
   type-aliases-package: pers.sy.sqloj.entity
+
+logging:
+  level:
+    pers:
+      sy:
+        sqloj:
+          debug

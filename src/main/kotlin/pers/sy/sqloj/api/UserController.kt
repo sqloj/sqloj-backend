@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import pers.sy.sqloj.entity.UserDO
+import pers.sy.sqloj.exception.UserAlreadyExistsException
 import pers.sy.sqloj.exception.UserVerifyFailedException
 import pers.sy.sqloj.service.UserService
 import pers.sy.sqloj.util.VResponse
@@ -48,6 +49,8 @@ class UserController
             return VResponse.ok(entity)
         } catch (e: UserVerifyFailedException) {
             return VResponse.err(1, "用户名或密码错误")
+        } catch (e: UserAlreadyExistsException) {
+            return VResponse.err(2, "用户名已存在")
         }
     }
 
@@ -74,6 +77,22 @@ class UserController
         try {
             userService.delete(id)
             return VResponse.ok()
+        } catch (e: Exception) {
+            return VResponse.err(1)
+        }
+    }
+
+
+    @PostMapping("/filter")
+    @Operation(summary = "查找用户")
+    fun filter(
+        @RequestParam(required = false) @Parameter(description = "用户 ID") id: String?,
+        @RequestParam(required = false) @Parameter(description = "用户信息") username: String?,
+        @RequestParam(required = false) @Parameter(description = "用户信息") department: String?
+    ): VResponse<Any?> {
+        try {
+            val ret = userService.filter(id, username, department)
+            return VResponse.ok(ret)
         } catch (e: Exception) {
             return VResponse.err(1)
         }
