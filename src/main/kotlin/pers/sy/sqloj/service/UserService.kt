@@ -14,11 +14,11 @@ class UserService
     val userMapper: UserMapper
 ) {
 
-    private fun getUserByID(id: Long): UserDO {
+    private fun getUserByID(id: String): UserDO {
         return userMapper.findByID(id) ?: throw UserNotFoundException()
     }
 
-    fun login(id: Long, password: String): UserDO {
+    fun login(id: String, password: String): UserDO {
         val user = userMapper.findByID(id)
         if (user == null || user.password != password) {
             throw UserVerifyFailedException()
@@ -26,7 +26,7 @@ class UserService
         return user
     }
 
-    private fun verify(id: Long, password: String): Boolean {
+    private fun verify(id: String, password: String): Boolean {
         val user = userMapper.findByID(id)
         if (user == null || user.password != password) {
             return false
@@ -47,12 +47,12 @@ class UserService
         update(entity)
     }
 
-    fun delete(id: Long) {
+    fun delete(id: String) {
         val user = getUserByID(id)
         userMapper.delete(id)
     }
 
-    fun regsiter(user: UserDO) {
+    fun register(user: UserDO) {
         val entity = userMapper.findByID(user.id)
         if (entity != null) {
             throw UserAlreadyExistsException()

@@ -6,9 +6,9 @@ import pers.sy.sqloj.entity.UserDO
 @Mapper
 interface UserMapper {
 
-    fun findByID(id: Long): UserDO?
+    fun findByID(id: String): UserDO?
 
-    fun delete(id: Long)
+    fun delete(id: String)
 
     fun update(entity: UserDO)
 

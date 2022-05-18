@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pers.sy.sqloj.mapper.TestcaseMapper">
+
+    <resultMap id="testcaseDO" type="pers.sy.sqloj.entity.TestcaseDO">
+        <id column="id" property="id"/>
+        <result column="label" property="content"/>
+        <result column="abstract" property="abstract"/>
+        <result column="content" property="content"/>
+        <result column="lang" property="lang"/>
+    </resultMap>
+
+    <sql id="selectAll">
+        select * from testcase
+    </sql>
+
+    <select id="list" resultMap="testcaseDO">
+        <include refid="selectAll"/>
+    </select>
+
+    <select id="getByID" resultMap="testcaseDO">
+        <include refid="selectAll"/>
+        where testcase.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into `testcase` values
+        (null, #{label}, #{abstract}, #{content}, #{lang})
+    </insert>
+
+    <update id="update">
+        update `testcase` t
+        set t.label     = #{label},
+            t.abstract      = #{abstract},
+            t.content     = #{content},
+            t.lang = #{lang}
+        where t.id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from `testcase` where id = #{id}
+    </delete>
+
+</mapper>

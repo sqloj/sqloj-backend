@@ -23,7 +23,7 @@ class UserController
     @Operation(summary = "用户登录")
     @ApiResponse(description = "用户信息")
     fun login(
-        @RequestParam @Parameter(description = "用户 ID", example = "1") id: Long,
+        @RequestParam @Parameter(description = "用户 ID", example = "test") id: String,
         @RequestParam @Parameter(description = "密码", example = "test") password: String
     ): VResponse<Any?> {
         try {
@@ -34,12 +34,29 @@ class UserController
         }
     }
 
+    @PostMapping("/register")
+    @Operation(summary = "用户登录")
+    @ApiResponse(description = "用户信息")
+    fun register(
+        @RequestBody @Parameter(description = "用户 ID") entity: UserDO
+    ): VResponse<Any?> {
+        if (entity.role != UserDO.STUDENT) {
+            return VResponse.err(2, "用户组错误")
+        }
+        try {
+            userService.register(entity)
+            return VResponse.ok(entity)
+        } catch (e: UserVerifyFailedException) {
+            return VResponse.err(1, "用户名或密码错误")
+        }
+    }
+
 
     @PostMapping("/update")
     @Operation(summary = "更新用户信息")
     fun updateUsernameByID(
-        @RequestParam @Parameter(description = "旧密码", example = "1") oldPassword: String,
-        @RequestBody @Parameter(description = "用户信息", example = "test") entity: UserDO
+        @RequestParam @Parameter(description = "旧密码", example = "test") oldPassword: String,
+        @RequestBody @Parameter(description = "用户信息") entity: UserDO
     ): VResponse<Any?> {
         try {
             userService.update(oldPassword, entity)
@@ -52,7 +69,7 @@ class UserController
     @PostMapping("/delete")
     @Operation(summary = "删除用户")
     fun deleteUsernameByID(
-        @RequestParam @Parameter(description = "用户 ID", example = "1") id: Long,
+        @RequestParam @Parameter(description = "用户 ID", example = "test") id: String,
     ): VResponse<Any?> {
         try {
             userService.delete(id)

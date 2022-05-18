@@ -8,12 +8,10 @@ set collation_database = utf8_general_ci;
 set collation_server = utf8_general_ci;
 set time_zone = "+8:00";
 
-CREATE DATABASE sqloj;
-
 USE sqloj;
 
 CREATE TABLE `user` (
-    `id`           bigint primary key,
+    `id`           nvarchar(32) primary key,
     `username`     nvarchar(32),
     `password`     nvarchar(32),
     `department`   nvarchar(32),
@@ -22,11 +20,11 @@ CREATE TABLE `user` (
 
 
 INSERT INTO user VALUES
-(998244353,  'admin', 'admin', '管理员', 2),
-(1, 'tourist', 'tourist', 'cf 特色班', 2),
-(202084021005, 'test',  'test',  '测试组', 1),
-(202082011012, 'test1', 'test1', '测试组', 1),
-(202084312122, 'test2', 'test2', '测试组', 1);
+('admin',  '老师', 'admin', '管理员', 2),
+('tourist', 'tourist', 'tourist', 'cf特色班', 2),
+('test', '学生',  'test',  '测试组', 1),
+('202082011012', 'test1', 'test1', '测试组', 1),
+('202084312122', 'test2', 'test2', '测试组', 1);
 
 
 CREATE TABLE testcase (

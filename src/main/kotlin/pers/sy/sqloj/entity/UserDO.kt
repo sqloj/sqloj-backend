@@ -1,7 +1,7 @@
 package pers.sy.sqloj.entity
 
 data class UserDO(
-    val id: Long,
+    val id: String,
     var username: String,
     var password: String,
     var department: String,
