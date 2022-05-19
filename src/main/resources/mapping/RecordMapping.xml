@@ -14,8 +14,6 @@
         <result column="time" property="time"/>
     </resultMap>
 
-
-
     <sql id="selectAll">
         select * from record
     </sql>

@@ -14,7 +14,7 @@ import pers.sy.sqloj.util.VResponse
 class JudgeServerService
 @Autowired constructor(
     val judgeServerMapper: JudgeServerMapper
-){
+) {
 
     fun list(): List<JudgeServerDO> {
         return judgeServerMapper.list()

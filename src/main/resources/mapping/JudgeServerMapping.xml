@@ -19,16 +19,14 @@
     </resultMap>
 
 
-
     <sql id="selectAll">
-        select
-            judge.id,
-            `url`,
-            `password`,
-            type_id,
-            judge_type.name as type_name
+        select judge.id,
+               `url`,
+               `password`,
+               type_id,
+               judge_type.name as type_name
         from judge
-        left join judge_type on judge.type_id = judge_type.id
+                 left join judge_type on judge.type_id = judge_type.id
     </sql>
 
 
@@ -45,7 +43,8 @@
 
 
     <select id="allSupport" resultMap="PingVO">
-        select * from judge_type
+        select *
+        from judge_type
     </select>
 
     <select id="getByID" resultMap="JudgeServerDO">
@@ -59,20 +58,22 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into `judge` values
-        (null, #{url}, #{password}, #{typeID})
+        insert into `judge`
+        values (null, #{url}, #{password}, #{typeID})
     </insert>
 
     <update id="update">
         update `judge` t
-        set t.url     = #{url},
-            t.password     = #{password},
-            t.type_id     = #{typeID}
+        set t.url      = #{url},
+            t.password = #{password},
+            t.type_id  = #{typeID}
         where t.id = #{id}
     </update>
 
     <delete id="delete">
-        delete from `judge` where id = #{id}
+        delete
+        from `judge`
+        where id = #{id}
     </delete>
 
 </mapper>

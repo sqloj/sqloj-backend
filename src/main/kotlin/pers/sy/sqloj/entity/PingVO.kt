@@ -4,5 +4,5 @@ data class PingVO(
     val typeID: Int,
     val typeName: String
 ) {
-    constructor() : this(0, "") {}
+    constructor() : this(0, "")
 }

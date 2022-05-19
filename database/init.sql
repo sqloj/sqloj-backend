@@ -30,11 +30,11 @@ INSERT INTO user VALUES
 
 
 CREATE TABLE testcase(
-                         `id`       int auto_increment primary key,
-                         `label`    nvarchar(32),
-                         `abstract` text,
-                         `content`  text,
-                         `type_id`  int
+    `id`       int auto_increment primary key,
+    `label`    nvarchar(32),
+    `abstract` text,
+    `content`  text,
+    `type_id`  int
 );
 
 

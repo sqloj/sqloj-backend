@@ -13,7 +13,7 @@ import pers.sy.sqloj.util.VResponse
 class SubmitController
 @Autowired constructor(
     val judgeService: JudgeService
-){
+) {
 
     @PostMapping("/test")
     @Operation(summary = "测试运行")
@@ -55,7 +55,7 @@ class SubmitController
     }
 
     @GetMapping("/list")
-    fun list() : VResponse<Any?> {
+    fun list(): VResponse<Any?> {
         return VResponse.ok(judgeService.list())
     }
 }

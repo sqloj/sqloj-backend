@@ -2,8 +2,14 @@ package pers.sy.sqloj.util
 
 import java.time.LocalDateTime
 
-data class VResponse<T>(val code: Int, val message: String?, val data: T?, val time: LocalDateTime) {
-    constructor() : this(OK, null, null, LocalDateTime.now()) {}
+data class VResponse<T>(
+    val code: Int,
+    val message: String?,
+    val data: T?,
+    val time: LocalDateTime
+) {
+    constructor() : this(OK, null, null, LocalDateTime.now())
+
     companion object {
         const val OK = 0
 

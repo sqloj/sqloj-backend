@@ -10,7 +10,7 @@ import pers.sy.sqloj.mapper.TestcaseMapper
 class TestcaseService
 @Autowired constructor(
     val testcaseMapper: TestcaseMapper
-){
+) {
     fun list(): List<TestcaseVO> {
         return testcaseMapper.list()
     }

@@ -29,7 +29,8 @@ class TestcaseController @Autowired constructor(
     @Operation(summary = "测试集信息")
     @ApiResponse(description = "测试集信息")
     fun info(
-        @PathVariable("id") @Parameter(description = "测试集 ID") id: Int): VResponse<Any?> {
+        @PathVariable("id") @Parameter(description = "测试集 ID") id: Int
+    ): VResponse<Any?> {
         try {
             val testcase = testcaseService.getByID(id)
             return VResponse.ok(testcase)
