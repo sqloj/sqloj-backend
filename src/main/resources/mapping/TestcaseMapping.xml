@@ -15,12 +15,14 @@
     </resultMap>
 
     <sql id="selectAll">
-        select id,
+        select testcase.id,
                label,
                abstract,
                content,
-               type_id
+               type_id,
+               judge_type.name as type_name
         from testcase
+        left join judge_type on testcase.type_id = judge_type.id
     </sql>
 
     <select id="list" resultMap="testcaseDO">

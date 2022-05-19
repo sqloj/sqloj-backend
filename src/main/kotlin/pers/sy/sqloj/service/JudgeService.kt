@@ -41,11 +41,11 @@ class JudgeService
         return judge(question, record)
     }
 
-    fun test(code: String, testcaseID: Int) {
+    fun test(code: String, testcaseID: Int): DBType? {
         val testcase = testcaseMapper.getByID(testcaseID) ?: throw TestcaseNotFoundException()
         val statement = "${testcase.abstract} ; ${testcase.content} ; $code"
         val typeID = testcase.typeID
-        exec(statement, typeID)
+        return exec(statement, typeID)
     }
 
     fun judge(question: QuestionVO, record: RecordDO): RecordDO {
@@ -73,7 +73,7 @@ class JudgeService
     fun randomServer(typeID: Int): JudgeServerDO {
         val servers = judgeServerMapper.filterByTypeID(typeID)
         if (servers.isEmpty()) {
-            throw NoSuchJudgeServerException()
+            throw NoSuchJudgeServerException("没有对应的服务器")
         }
         return servers.random()
     }
