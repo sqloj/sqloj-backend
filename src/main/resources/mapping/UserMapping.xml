@@ -36,6 +36,9 @@
             <if test="department!=null and department!=''">
                 and department like concat('%', #{department}, '%')
             </if>
+            <if test="role!=null and role!=''">
+                and `role` = #{role}
+            </if>
         </where>
     </select>
 
@@ -47,7 +50,8 @@
     <update id="update">
         update `user` t
         set t.password   = #{password},
-            t.department = #{department}
+            t.department = #{department},
+            t.username   = #{username}
         where t.id = #{id}
     </update>
 

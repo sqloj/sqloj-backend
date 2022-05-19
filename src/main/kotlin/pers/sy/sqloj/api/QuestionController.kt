@@ -14,7 +14,7 @@ import pers.sy.sqloj.util.VResponse
 @RestController
 @RequestMapping("/api/v1/question")
 @Tag(name = "SQLOJ 题目管理", description = "QuestionController")
-class QuestionController@Autowired constructor(
+class QuestionController @Autowired constructor(
     val questionService: QuestionService
 ) {
     @GetMapping("/list")
@@ -35,7 +35,8 @@ class QuestionController@Autowired constructor(
     @Operation(summary = "题目信息")
     @ApiResponse(description = "题目信息")
     fun info(
-        @PathVariable("id") @Parameter(description = "题目 ID") id: Int): VResponse<Any?> {
+        @PathVariable("id") @Parameter(description = "题目 ID") id: Int
+    ): VResponse<Any?> {
         try {
             val question = questionService.getByID(id)
             return VResponse.ok(question)
@@ -47,7 +48,8 @@ class QuestionController@Autowired constructor(
     @PostMapping("/insert")
     @Operation(summary = "增加题目")
     fun insert(
-        @RequestBody @Parameter(description = "题目信息") entity: QuestionDO): VResponse<Any?> {
+        @RequestBody @Parameter(description = "题目信息") entity: QuestionDO
+    ): VResponse<Any?> {
         try {
             questionService.insert(entity)
             return VResponse.ok(entity)
@@ -61,7 +63,8 @@ class QuestionController@Autowired constructor(
     @PostMapping("/update")
     @Operation(summary = "更新题目")
     fun update(
-        @RequestBody @Parameter(description = "题目信息") entity: QuestionDO): VResponse<Any?> {
+        @RequestBody @Parameter(description = "题目信息") entity: QuestionDO
+    ): VResponse<Any?> {
         try {
             questionService.update(entity)
             return VResponse.ok(entity)
@@ -75,7 +78,8 @@ class QuestionController@Autowired constructor(
     @PostMapping("/delete")
     @Operation(summary = "删除题目")
     fun update(
-        @RequestBody @Parameter(description = "题目信息") id: Int): VResponse<Any?> {
+        @RequestParam @Parameter(description = "题目信息") id: Int
+    ): VResponse<Any?> {
         try {
             questionService.delete(id)
             return VResponse.ok()

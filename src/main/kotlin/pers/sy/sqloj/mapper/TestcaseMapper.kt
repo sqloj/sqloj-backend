@@ -1,18 +1,18 @@
 package pers.sy.sqloj.mapper
 
 import org.apache.ibatis.annotations.Mapper
-import pers.sy.sqloj.entity.TestcaseDO
+import pers.sy.sqloj.entity.TestcaseVO
 
 @Mapper
 interface TestcaseMapper {
 
-    fun list(): List<TestcaseDO>
+    fun list(): List<TestcaseVO>
 
     fun delete(id: Int)
 
-    fun getByID(id: Int): TestcaseDO?
+    fun getByID(id: Int): TestcaseVO?
 
-    fun update(entity: TestcaseDO)
+    fun update(entity: TestcaseVO)
 
-    fun insert(entity: TestcaseDO)
+    fun insert(entity: TestcaseVO)
 }

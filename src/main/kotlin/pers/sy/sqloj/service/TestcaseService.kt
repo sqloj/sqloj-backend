@@ -2,7 +2,7 @@ package pers.sy.sqloj.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import pers.sy.sqloj.entity.TestcaseDO
+import pers.sy.sqloj.entity.TestcaseVO
 import pers.sy.sqloj.exception.TestcaseNotFoundException
 import pers.sy.sqloj.mapper.TestcaseMapper
 
@@ -11,7 +11,7 @@ class TestcaseService
 @Autowired constructor(
     val testcaseMapper: TestcaseMapper
 ){
-    fun list(): List<TestcaseDO> {
+    fun list(): List<TestcaseVO> {
         return testcaseMapper.list()
     }
 
@@ -19,15 +19,15 @@ class TestcaseService
         testcaseMapper.delete(id)
     }
 
-    fun getByID(id: Int): TestcaseDO {
+    fun getByID(id: Int): TestcaseVO {
         return testcaseMapper.getByID(id) ?: throw TestcaseNotFoundException()
     }
 
-    fun insert(entity: TestcaseDO) {
+    fun insert(entity: TestcaseVO) {
         testcaseMapper.insert(entity)
     }
 
-    fun update(entity: TestcaseDO) {
+    fun update(entity: TestcaseVO) {
         testcaseMapper.update(entity)
     }
 }

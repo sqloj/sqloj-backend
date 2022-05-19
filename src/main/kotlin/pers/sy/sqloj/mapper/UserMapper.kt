@@ -15,5 +15,5 @@ interface UserMapper {
     fun insert(entity: UserDO)
 
     fun list(): List<UserDO>
-    fun filter(id: String?, username: String?, department: String?): List<UserDO>
+    fun filter(id: String?, username: String?, department: String?, role: Int?): List<UserDO>
 }

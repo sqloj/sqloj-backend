@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import pers.sy.sqloj.entity.TestcaseDO
+import pers.sy.sqloj.entity.TestcaseVO
 import pers.sy.sqloj.exception.TestcaseNotFoundException
 import pers.sy.sqloj.service.TestcaseService
 import pers.sy.sqloj.util.VResponse
@@ -41,7 +41,7 @@ class TestcaseController @Autowired constructor(
     @PostMapping("/insert")
     @Operation(summary = "增加测试集")
     fun insert(
-        @RequestBody @Parameter(description = "测试集信息") entity: TestcaseDO
+        @RequestBody @Parameter(description = "测试集信息") entity: TestcaseVO
     ): VResponse<Any?> {
         try {
             testcaseService.insert(entity)
@@ -56,7 +56,7 @@ class TestcaseController @Autowired constructor(
     @PostMapping("/update")
     @Operation(summary = "更新测试集")
     fun update(
-        @RequestBody @Parameter(description = "测试集信息") entity: TestcaseDO
+        @RequestBody @Parameter(description = "测试集信息") entity: TestcaseVO
     ): VResponse<Any?> {
         try {
             testcaseService.update(entity)
@@ -71,7 +71,8 @@ class TestcaseController @Autowired constructor(
     @PostMapping("/delete")
     @Operation(summary = "删除测试集")
     fun update(
-        @RequestBody @Parameter(description = "测试集信息") id: Int): VResponse<Any?> {
+        @RequestParam @Parameter(description = "测试集信息") id: Int
+    ): VResponse<Any?> {
         try {
             testcaseService.delete(id)
             return VResponse.ok()

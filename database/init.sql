@@ -29,12 +29,12 @@ INSERT INTO user VALUES
     ('202084312122', 'test2', 'test2', '测试组', 1);
 
 
-CREATE TABLE testcase (
-    `id`              int auto_increment primary key,
-    `label`           nvarchar(32),
-    `abstract`        text,
-    `content`         text,
-    `lang`            int
+CREATE TABLE testcase(
+                         `id`       int auto_increment primary key,
+                         `label`    nvarchar(32),
+                         `abstract` text,
+                         `content`  text,
+                         `type_id`  int
 );
 
 

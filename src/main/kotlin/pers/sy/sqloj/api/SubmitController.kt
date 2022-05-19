@@ -15,12 +15,13 @@ class SubmitController
     val judgeService: JudgeService
 ){
 
-    @PostMapping("/exec")
-    @Operation(summary = "运行")
+    @PostMapping("/test")
+    @Operation(summary = "测试运行")
     fun exec(
-        @RequestBody code: String, lang: Int): VResponse<Any?> {
+        @RequestBody code: String, testcaseID: Int
+    ): VResponse<Any?> {
         try {
-            val ret = judgeService.exec(code, lang)
+            val ret = judgeService.test(code, testcaseID)
             return VResponse.ok(ret)
         } catch (e: Exception) {
             return VResponse.err(1, e.message)

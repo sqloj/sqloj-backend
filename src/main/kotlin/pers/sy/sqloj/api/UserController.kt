@@ -88,10 +88,11 @@ class UserController
     fun filter(
         @RequestParam(required = false) @Parameter(description = "用户 ID") id: String?,
         @RequestParam(required = false) @Parameter(description = "用户信息") username: String?,
-        @RequestParam(required = false) @Parameter(description = "用户信息") department: String?
+        @RequestParam(required = false) @Parameter(description = "用户信息") department: String?,
+        @RequestParam(required = false) @Parameter(description = "用户信息") role: Int?
     ): VResponse<Any?> {
         try {
-            val ret = userService.filter(id, username, department)
+            val ret = userService.filter(id, username, department, role)
             return VResponse.ok(ret)
         } catch (e: Exception) {
             return VResponse.err(1)

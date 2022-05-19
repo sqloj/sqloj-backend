@@ -6,13 +6,11 @@ import org.springframework.web.client.RestTemplate
 import pers.sy.sqloj.entity.JudgeServerDO
 import pers.sy.sqloj.entity.QuestionVO
 import pers.sy.sqloj.entity.RecordDO
-import pers.sy.sqloj.exception.JudgeServerPasswordException
-import pers.sy.sqloj.exception.NoSuchJudgeServerException
-import pers.sy.sqloj.exception.QuestionNotFoundException
-import pers.sy.sqloj.exception.RecordNotFoundException
+import pers.sy.sqloj.exception.*
 import pers.sy.sqloj.mapper.JudgeServerMapper
 import pers.sy.sqloj.mapper.QuestionMapper
 import pers.sy.sqloj.mapper.RecordMapper
+import pers.sy.sqloj.mapper.TestcaseMapper
 import pers.sy.sqloj.util.VResponse
 
 
@@ -23,7 +21,8 @@ class JudgeService
 @Autowired constructor(
     val questionMapper: QuestionMapper,
     val recordMapper: RecordMapper,
-    val judgeServerMapper: JudgeServerMapper
+    val judgeServerMapper: JudgeServerMapper,
+    val testcaseMapper: TestcaseMapper
 ) {
 
     fun rejudge(recordID: Int): RecordDO {
@@ -32,7 +31,6 @@ class JudgeService
 
         record.result = RecordDO.RESULT_UNKNOWN
         recordMapper.update(record)
-
         return judge(question, record)
     }
 
@@ -40,8 +38,14 @@ class JudgeService
         val question = questionMapper.getByID(questionID) ?: throw QuestionNotFoundException()
         val record = RecordDO(userID, questionID, code)
         recordMapper.insert(record)
-
         return judge(question, record)
+    }
+
+    fun test(code: String, testcaseID: Int) {
+        val testcase = testcaseMapper.getByID(testcaseID) ?: throw TestcaseNotFoundException()
+        val statement = "${testcase.abstract} ; ${testcase.content} ; $code"
+        val typeID = testcase.typeID
+        exec(statement, typeID)
     }
 
     fun judge(question: QuestionVO, record: RecordDO): RecordDO {
@@ -49,8 +53,8 @@ class JudgeService
         val codeTeacher = "$codeQuestion ; ${question.answer}"
         val codeStudent = "$codeQuestion ; ${record.code}"
         try {
-            val retStudent = exec(codeStudent, question.lang)
-            val retTeacher = exec(codeTeacher, question.lang)
+            val retStudent = exec(codeStudent, question.typeID)
+            val retTeacher = exec(codeTeacher, question.typeID)
             if (retStudent == retTeacher) {
                 record.result = RecordDO.RESULT_ACCEPT
             } else {
@@ -74,8 +78,8 @@ class JudgeService
         return servers.random()
     }
 
-    fun exec(statement: String, type: Int): DBType? {
-        val server = randomServer(type)
+    fun exec(statement: String, typeID: Int): DBType? {
+        val server = randomServer(typeID)
         return exec(statement, server.url, server.password)
     }
 

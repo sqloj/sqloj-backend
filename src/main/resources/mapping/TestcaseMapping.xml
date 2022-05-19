@@ -5,16 +5,22 @@
 
 <mapper namespace="pers.sy.sqloj.mapper.TestcaseMapper">
 
-    <resultMap id="testcaseDO" type="pers.sy.sqloj.entity.TestcaseDO">
+    <resultMap id="testcaseDO" type="pers.sy.sqloj.entity.TestcaseVO">
         <id column="id" property="id"/>
         <result column="label" property="content"/>
         <result column="abstract" property="abstract"/>
         <result column="content" property="content"/>
-        <result column="lang" property="lang"/>
+        <result column="type_id" property="typeID"/>
+        <result column="type_name" property="typeName"/>
     </resultMap>
 
     <sql id="selectAll">
-        select * from testcase
+        select id,
+               label,
+               abstract,
+               content,
+               type_id
+        from testcase
     </sql>
 
     <select id="list" resultMap="testcaseDO">
@@ -27,16 +33,16 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into `testcase` values
-        (null, #{label}, #{abstract}, #{content}, #{lang})
+        insert into `testcase`
+        values (null, #{label}, #{abstract}, #{content}, #{typeID})
     </insert>
 
     <update id="update">
         update `testcase` t
-        set t.label     = #{label},
-            t.abstract      = #{abstract},
-            t.content     = #{content},
-            t.lang = #{lang}
+        set t.label    = #{label},
+            t.abstract = #{abstract},
+            t.content  = #{content},
+            t.type_id  = #{typeID}
         where t.id = #{id}
     </update>
 
