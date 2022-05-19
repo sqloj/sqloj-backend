@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pers.sy.sqloj.mapper.JudgeServerMapper">
+
+    <resultMap id="JudgeServerDO" type="pers.sy.sqloj.entity.JudgeServerDO">
+        <id column="id" property="id"/>
+        <result column="url" property="url"/>
+        <result column="password" property="password"/>
+        <result column="type_id" property="typeID"/>
+        <result column="type_name" property="typeName"/>
+    </resultMap>
+
+    <resultMap id="PingVO" type="pers.sy.sqloj.entity.PingVO">
+        <result column="id" property="typeID"/>
+        <result column="name" property="typeName"/>
+    </resultMap>
+
+
+
+    <sql id="selectAll">
+        select
+            judge.id,
+            `url`,
+            `password`,
+            type_id,
+            judge_type.name as type_name
+        from judge
+        left join judge_type on judge.type_id = judge_type.id
+    </sql>
+
+
+    <select id="list" resultMap="JudgeServerDO">
+        <include refid="selectAll"/>
+    </select>
+
+
+    <select id="support" resultMap="JudgeServerDO">
+        <include refid="selectAll"/>
+        group by type_id
+        order by type_id
+    </select>
+
+
+    <select id="allSupport" resultMap="PingVO">
+        select * from judge_type
+    </select>
+
+    <select id="getByID" resultMap="JudgeServerDO">
+        <include refid="selectAll"/>
+        where judge.id = #{id}
+    </select>
+
+    <select id="filterByTypeID" resultMap="JudgeServerDO">
+        <include refid="selectAll"/>
+        where judge.type_id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into `judge` values
+        (null, #{url}, #{password}, #{typeID})
+    </insert>
+
+    <update id="update">
+        update `judge` t
+        set t.url     = #{url},
+            t.password     = #{password},
+            t.type_id     = #{typeID}
+        where t.id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from `judge` where id = #{id}
+    </delete>
+
+</mapper>

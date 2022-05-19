@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pers.sy.sqloj.mapper.RecordMapper">
+
+    <resultMap id="RecordDO" type="pers.sy.sqloj.entity.RecordDO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userID"/>
+        <result column="question_id" property="questionID"/>
+        <result column="code" property="code"/>
+        <result column="result" property="result"/>
+        <result column="time" property="time"/>
+    </resultMap>
+
+
+
+    <sql id="selectAll">
+        select * from record
+    </sql>
+
+
+    <select id="list" resultMap="RecordDO">
+        <include refid="selectAll"/>
+    </select>
+
+    <select id="getByID" resultMap="RecordDO">
+        <include refid="selectAll"/>
+        where record.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into `record` values
+        (null, #{userID}, #{questionID}, #{code}, #{result}, #{time})
+    </insert>
+
+    <update id="update">
+        update `record` t
+        set t.result     = #{result}
+        where t.id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from `record` where id = #{id}
+    </delete>
+
+</mapper>

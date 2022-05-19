@@ -18,7 +18,8 @@
         <result column="answer" property="answer"/>
         <result column="testcase_id" property="testcaseID"/>
         <result column="label" property="label"/>
-        <result column="abstract" property="abstract"/>
+        <result column="testcase_abstract" property="testcaseAbstract"/>
+        <result column="testcase_content" property="testcaseContent"/>
         <result column="lang" property="lang"/>
     </resultMap>
 
@@ -30,19 +31,20 @@
             question.content,
             answer,
             testcase_id,
-            abstract,
+            testcase.abstract as testcase_acstract,
+            testcase.content as testcase_content,
             testcase.label,
             testcase.lang
         from question
         join testcase on question.testcase_id = testcase.id
     </sql>
 
-    <select id="list" resultMap="question">
+    <select id="listDO" resultMap="question">
         select * from question
     </select>
 
 
-    <select id="listWithTestcase" resultMap="question_testcase">
+    <select id="listVO" resultMap="question_testcase">
         <include refid="selectAll"/>
     </select>
 

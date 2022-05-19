@@ -12,7 +12,8 @@ data class QuestionVO(
     var content: String,
     var answer: String,
     var testcaseID: Int,
+    var testcaseAbstract: String,
+    var testcaseContent: String,
     var label: String,
-    var abstract: String,
     var lang: Int
 )
