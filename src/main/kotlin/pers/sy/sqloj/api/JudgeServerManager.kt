@@ -42,6 +42,22 @@ class JudgeServerManager
         }
     }
 
+    @PostMapping("/ping")
+    @Operation(summary = "增加评测机")
+    fun ping(
+        @RequestBody @Parameter(description = "评测机信息") entity: JudgeServerDO
+    ): VResponse<Any?> {
+        try {
+            val ret = judgeServerService.ping(entity)
+            return VResponse.ok(ret)
+        } catch (e: JudgeServerNotFoundException) {
+            return VResponse.err(1, "评测机不存在")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return VResponse.err(2, "其他错误:${e.message}")
+        }
+    }
+
     @PostMapping("/update")
     @Operation(summary = "更新评测机")
     fun update(

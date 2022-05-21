@@ -4,4 +4,4 @@ class JudgeServerNotFoundException : Exception()
 
 class NoSuchJudgeServerException(s: String) : Exception(s)
 
-class JudgeServerPasswordException : Exception()
+class JudgeServerPasswordException : Exception("密码错误")

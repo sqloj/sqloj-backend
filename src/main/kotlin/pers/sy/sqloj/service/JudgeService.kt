@@ -90,14 +90,12 @@ class JudgeService
         val turl = "$url/api/exec?password=$password"
         val retT = restTemplate.postForObject(turl, statement, VResponse<DBType>().javaClass)
         val ret = retT ?: throw Exception("null ptr")
-        if (ret.code != 0 || ret.data == null) {
-            if (ret.code == 1) {
-                throw JudgeServerPasswordException()
-            } else {
-                throw Exception(ret.message)
-            }
+        if (ret.code == 1) {
+            throw JudgeServerPasswordException()
+        } else if (ret.code == 2) {
+            throw Exception(ret.message)
         }
-        return ret.data
+        return ret.data!!
     }
 
     fun list(): List<RecordDO> {

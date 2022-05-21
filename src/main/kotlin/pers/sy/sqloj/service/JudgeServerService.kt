@@ -20,7 +20,7 @@ class JudgeServerService
         return judgeServerMapper.list()
     }
 
-    fun insert(entity: JudgeServerDO) {
+    fun ping(entity: JudgeServerDO): PingVO {
         val restTemplate = RestTemplate()
         val turl = "${entity.url}/api/ping?password=${entity.password}"
         val typeDef = object : ParameterizedTypeReference<VResponse<PingVO>>() {}
@@ -29,8 +29,13 @@ class JudgeServerService
         if (ret.code != VResponse.OK || ret.data == null) {
             throw Exception(ret.toString())
         }
-        entity.typeID = ret.data.typeID
-        entity.typeName = ret.data.typeName
+        return ret.data
+    }
+
+    fun insert(entity: JudgeServerDO) {
+        val ret = ping(entity)
+        entity.typeID = ret.typeID
+        entity.typeName = ret.typeName
         judgeServerMapper.insert(entity)
     }
 

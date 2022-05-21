@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import pers.sy.sqloj.api.param.SubmitParam
+import pers.sy.sqloj.api.param.SubmitTestParam
 import pers.sy.sqloj.service.JudgeService
 import pers.sy.sqloj.util.VResponse
 
@@ -18,24 +20,23 @@ class SubmitController
     @PostMapping("/test")
     @Operation(summary = "测试运行")
     fun exec(
-        @RequestBody code: String, testcaseID: Int
+        @RequestBody param: SubmitTestParam
     ): VResponse<Any?> {
         try {
-            val ret = judgeService.test(code, testcaseID)
+            val ret = judgeService.test(param.code, param.testcaseID)
             return VResponse.ok(ret)
         } catch (e: Exception) {
+            e.printStackTrace()
             return VResponse.err(1, e.message)
         }
     }
 
     @PostMapping("/submit")
     fun submit(
-        @RequestParam questionID: Int,
-        @RequestParam userID: String,
-        @RequestBody code: String
+        @RequestBody param: SubmitParam
     ): VResponse<Any?> {
         try {
-            val ret = judgeService.sumbit(code, questionID, userID)
+            val ret = judgeService.sumbit(param.code, param.questionID, param.userID)
             return VResponse.ok(ret)
         } catch (e: Exception) {
             return VResponse.err(1, "提交失败")
