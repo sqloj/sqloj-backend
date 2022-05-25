@@ -1,6 +1,7 @@
 package pers.sy.sqloj.service
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.converter.StringHttpMessageConverter
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import pers.sy.sqloj.entity.JudgeServerDO
@@ -12,6 +13,7 @@ import pers.sy.sqloj.mapper.QuestionMapper
 import pers.sy.sqloj.mapper.RecordMapper
 import pers.sy.sqloj.mapper.TestcaseMapper
 import pers.sy.sqloj.util.VResponse
+import java.nio.charset.StandardCharsets
 
 
 typealias DBType = MutableList<Map<*, *>>
@@ -85,11 +87,14 @@ class JudgeService
 
     fun exec(statement: String, url: String, password: String): DBType {
         val restTemplate = RestTemplate()
+        restTemplate.messageConverters
+            .add(0, StringHttpMessageConverter(StandardCharsets.UTF_8));
         println("[LOG] statement = $statement")
 
         val turl = "$url/api/exec?password=$password"
         val retT = restTemplate.postForObject(turl, statement, VResponse<DBType>().javaClass)
         val ret = retT ?: throw Exception("null ptr")
+        println(ret)
         if (ret.code == 1) {
             throw JudgeServerPasswordException()
         } else if (ret.code == 2) {
