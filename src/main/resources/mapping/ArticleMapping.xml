@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pers.sy.sqloj.mapper.ArticleMapper">
+
+    <resultMap id="ArticleDO" type="pers.sy.sqloj.entity.ArticleDO">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="time" property="time"/>
+        <result column="user_id" property="user_id"/>
+    </resultMap>
+
+
+    <select id="list" resultMap="ArticleDO">
+        select *
+        from `article`
+    </select>
+
+    <select id="getByID" resultMap="ArticleDO">
+        select *
+        from `article`
+        where id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into `article` values
+            (null, #{title}, #{content}, #{time}, #{user_id});
+    </insert>
+    <insert id="insert2">
+        insert into `article_manage` values
+            (#{user_id}, #{id})
+    </insert>
+    <update id="update">
+        update `article` t
+        set t.title     = #{title},
+            t.content      = #{content},
+            t.time = #{time}
+        where t.id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from `article`
+        where id = #{id}
+    </delete>
+    <delete id="delete2">
+        delete
+        from `article_manage`
+        where article_id = #{id}
+    </delete>
+
+</mapper>
