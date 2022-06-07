@@ -25,7 +25,7 @@ class JudgeServerService
         val turl = "${entity.url}/api/ping?password=${entity.password}"
         val typeDef = object : ParameterizedTypeReference<VResponse<PingVO>>() {}
         val retT = restTemplate.exchange(turl, HttpMethod.POST, null, typeDef)
-        val ret = retT.body ?: throw Exception("MULL")
+        val ret = retT.body ?: throw Exception("NULL")
         if (ret.code != VResponse.OK || ret.data == null) {
             throw Exception(ret.toString())
         }

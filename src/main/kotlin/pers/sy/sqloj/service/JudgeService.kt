@@ -36,7 +36,7 @@ class JudgeService
         return judge(question, record)
     }
 
-    fun sumbit(code: String, questionID: Int, userID: String): RecordDO {
+    fun submit(code: String, questionID: Int, userID: String): RecordDO {
         val question = questionMapper.getByID(questionID) ?: throw QuestionNotFoundException()
         val record = RecordDO(userID, questionID, code)
         recordMapper.insert(record)
@@ -88,7 +88,7 @@ class JudgeService
     fun exec(statement: String, url: String, password: String): DBType {
         val restTemplate = RestTemplate()
         restTemplate.messageConverters
-            .add(0, StringHttpMessageConverter(StandardCharsets.UTF_8));
+            .add(0, StringHttpMessageConverter(StandardCharsets.UTF_8))
         println("[LOG] statement = $statement")
 
         val turl = "$url/api/exec?password=$password"
