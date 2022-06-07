@@ -1,11 +1,11 @@
 package pers.sy.sqloj.entity
 
 data class QuestionDO(
-    val id: Int,
-    var content: String,
-    var answer: String,
-    var testcaseID: Int,
-    var question_label: String
+    val id: Int = -1,
+    var content: String = "",
+    var answer: String = "",
+    var testcaseID: Int = 0,
+    var question_label: String = ""
 )
 
 data class QuestionVO(

@@ -7,6 +7,8 @@ set collation_connection = utf8_general_ci;
 set collation_database = utf8_general_ci;
 set collation_server = utf8_general_ci;
 set time_zone = "+8:00";
+
+drop database sqloj;
 CREATE DATABASE sqloj;
 
 USE sqloj;
@@ -20,7 +22,6 @@ CREATE TABLE `user`
     `submit_num` int null,
     `pass_num`   int null,
     `role`       int
-
 );
 
 
@@ -52,24 +53,24 @@ VALUES (1, '空表', '', '', 5),
 CREATE TABLE question
 (
     `id`          int auto_increment primary key,
+    `question_label`       varchar(30),
     `content`     text,
     `answer`      text,
     `testcase_id` int,
-    `question_label`       varchar(30),
     FOREIGN KEY (testcase_id) REFERENCES testcase(id)
 );
 
 INSERT INTO question
-VALUES (1, '查询系编号为‘0501’学生的基本信息（学号、姓名、性别、出生日期）。', 'SELECT snum, sname, ssex, sbirth FROM s WHERE dnum = ''0501'';', 1,'string'),
-       (2, '查询学号为''201305010101''的学生的姓名。', 'SELECT sname FROM s WHERE snum = ''201305010101'';', 2,'string'),
-       (3, '选1', 'SELECT 1;', 1,'string'),
-       (4, '输出 $\\pi = 3.141596535...$\n\n> 提示：$\\arccos(-1) = \\pi$', 'SELECT arccos(-1);', 1,'string'),
-       (5, '请计算\n$$ \\sum_{n=1}^\\infty \\frac{1}{n(n+1)} $$', 'SELECT ACOS(-1) * ACOS(-1) / 6;', 1,'string'),
-       (6, '![](https://pic1.zhimg.com/v2-09b42c0984429923fc5502d5bf1bf3ee_1440w.jpg?source=172ae18b)',
+VALUES (1,'SELECT 语句', '查询系编号为‘0501’学生的基本信息（学号、姓名、性别、出生日期）。', 'SELECT snum, sname, ssex, sbirth FROM s WHERE dnum = ''0501'';', 1),
+       (2,'SELECT 查询', '查询学号为''201305010101''的学生的姓名。', 'SELECT sname FROM s WHERE snum = ''201305010101'';', 2),
+       (3,'选 1', '选1', 'SELECT 1;', 1),
+       (4,'数学题', '输出 $\\pi = 3.141596535...$\n\n> 提示：$\\arccos(-1) = \\pi$', 'SELECT arccos(-1);', 1),
+       (5,'数论', '请计算\n$$ \\sum_{n=1}^\\infty \\frac{1}{n(n+1)} $$', 'SELECT ACOS(-1) * ACOS(-1) / 6;', 1),
+       (6,'史上最……', '![](https://pic1.zhimg.com/v2-09b42c0984429923fc5502d5bf1bf3ee_1440w.jpg?source=172ae18b)',
         'SELECT ''154476802108746166441951315019919837485664325669565431700026634898253202035277999'';
        SELECT ''36875131794129999827197811565225474825492979968971970996283137471637224634055579'';
        SELECT ''4373612677928697257861252602371390152816537558161613618621437993378423467772036'';',
-        1,'string');
+        1);
 CREATE TABLE record
 (
     `id`          int auto_increment primary key,
