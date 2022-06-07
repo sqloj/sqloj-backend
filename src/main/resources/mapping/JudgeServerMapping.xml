@@ -9,7 +9,7 @@
         <id column="id" property="id"/>
         <result column="url" property="url"/>
         <result column="password" property="password"/>
-        <result column="type_id" property="typeID"/>
+        <result column="judge_type_id" property="typeID"/>
         <result column="type_name" property="typeName"/>
     </resultMap>
 
@@ -19,16 +19,21 @@
     </resultMap>
 
 
-    <sql id="selectAll">
-        select judge.id,
-               `url`,
-               `password`,
-               type_id,
-               judge_type.name as type_name
-        from judge
-                 left join judge_type on judge.type_id = judge_type.id
+    <!--    <sql id="selectAll">-->
+    <!--        select judge.id,-->
+    <!--               `url`,-->
+    <!--               `password`,-->
+    <!--               judge_type_id,-->
+    <!--               judge_type.name as type_name,-->
+    <!--              judge_manage.user_id-->
+    <!--        from judge-->
+    <!--                 left join judge_type on judge.judge_type_id = judge_type.id-->
+    <!--                 left join judge_manage on judge.id = judge_manage.judge_id-->
+    <!--    </sql>-->
+    <sql id = "selectAll">
+        select *
+        from judge_detail
     </sql>
-
 
     <select id="list" resultMap="JudgeServerDO">
         <include refid="selectAll"/>
@@ -37,8 +42,8 @@
 
     <select id="support" resultMap="JudgeServerDO">
         <include refid="selectAll"/>
-        group by type_id
-        order by type_id
+        group by judge_type_id
+        order by judge_type_id
     </select>
 
 
@@ -49,24 +54,27 @@
 
     <select id="getByID" resultMap="JudgeServerDO">
         <include refid="selectAll"/>
-        where judge.id = #{id}
+        where id = #{id}
     </select>
 
     <select id="filterByTypeID" resultMap="JudgeServerDO">
         <include refid="selectAll"/>
-        where judge.type_id = #{id}
+        where judge_type_id = #{id}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into `judge`
         values (null, #{url}, #{password}, #{typeID})
     </insert>
-
+    <insert id="insert2">
+        insert into `judge_manage`
+        values (#{user_id}, #{id})
+    </insert>
     <update id="update">
         update `judge` t
         set t.url      = #{url},
             t.password = #{password},
-            t.type_id  = #{typeID}
+            t.judge_type_id  = #{typeID}
         where t.id = #{id}
     </update>
 
@@ -75,5 +83,9 @@
         from `judge`
         where id = #{id}
     </delete>
-
+    <delete id="delete2">
+        delete
+        from `judge_manage`
+        where judge_id = #{id}
+    </delete>
 </mapper>
