@@ -1,4 +1,4 @@
-package pers.sy.sqloj.mapper
+package pers.sy.sqloj.mapper;
 
 import org.apache.ibatis.annotations.Mapper
 import pers.sy.sqloj.entity.ArticleDO
@@ -12,11 +12,11 @@ interface ArticleMapper {
 
     fun delete2(id : Int)
 
-    fun getByID(id: Int): ArticleDO?
+    fun getByID(id: String): List<ArticleDO>?
 
     fun update(entity: ArticleDO)
 
     fun insert(entity: ArticleDO)
 
-    fun insert2(id :Int, user_id:Int)
+    fun insert2(id :Int, userid: String)
 }

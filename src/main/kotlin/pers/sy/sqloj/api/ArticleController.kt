@@ -30,7 +30,7 @@ class ArticleController @Autowired constructor(
     @Operation(summary = "文章信息")
     @ApiResponse(description = "文章信息")
     fun info(
-        @PathVariable("id") @Parameter(description = "文章 ID") id: Int
+        @PathVariable("id") @Parameter(description = "用户 ID") id: String
     ): VResponse<Any?> {
         try {
             val article = articleService.getByID(id)
@@ -46,9 +46,7 @@ class ArticleController @Autowired constructor(
         @RequestBody @Parameter(description = "文章信息") entity: ArticleDO
     ): VResponse<Any?> {
         try {
-//            val article = ArticleDO(entity.title, entity.content);
-//            println(article.toString());
-            articleService.insert(entity)
+            articleService.insert(entity);
             return VResponse.ok(entity)
         } catch (e: ArticleNotFoundException) {
             return VResponse.err(1, "文章不存在")

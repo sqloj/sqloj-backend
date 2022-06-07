@@ -15,28 +15,35 @@
 
 
     <select id="list" resultMap="ArticleDO">
-        select *
-        from `article`
+        select article.id,article.title,article.content, article.time,article_manage.user_id
+        from `article` , article_manage
+        where article.id = article_manage.article_id
     </select>
+
+    <!--    <select id="getByID" resultMap="ArticleDO">-->
+    <!--        select *-->
+    <!--        from `article`-->
+    <!--        where id = #{id}-->
+    <!--    </select>-->
 
     <select id="getByID" resultMap="ArticleDO">
         select *
         from `article`
-        where id = #{id}
+        where article.id in (select article_id FROM article_manage WHERE article_manage.user_id = #{user_id})
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into `article` values
-            (null, #{title}, #{content}, #{time}, #{user_id});
+            (null, #{title}, #{content}, #{time});
     </insert>
     <insert id="insert2">
         insert into `article_manage` values
-            (#{user_id}, #{id})
+            (#{userid}, #{id})
     </insert>
     <update id="update">
         update `article` t
         set t.title     = #{title},
-            t.content      = #{content},
+            t.content   = #{content},
             t.time = #{time}
         where t.id = #{id}
     </update>

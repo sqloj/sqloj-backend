@@ -1,4 +1,4 @@
-package pers.sy.sqloj.service
+package pers.sy.sqloj.service;
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -16,7 +16,7 @@ class ArticleService
         return articleMapper.list()
     }
 
-    fun getByID(id: Int): ArticleDO {
+    fun getByID(id: String): List<ArticleDO> {
         return articleMapper.getByID(id) ?: throw ArticleNotFoundException()
     }
 
@@ -33,6 +33,6 @@ class ArticleService
 
     fun delete(id: Int) {
         articleMapper.delete(id)
-        articleMapper.delete2(id)
+        articleMapper.delete2(id);
     }
 }

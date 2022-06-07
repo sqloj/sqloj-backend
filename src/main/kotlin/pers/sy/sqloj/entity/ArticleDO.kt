@@ -6,11 +6,11 @@ data class ArticleDO(
     var title :String,
     var content : String,
     val time : LocalDateTime,
-    val user_id : Int
+    val user_id : String
 ) {
-    //    constructor() : this(0, "", "", LocalDateTime.now(), 0)
+//    constructor() : this(0, "", "", LocalDateTime.now(), "")
 //
-//    constructor(title : String, content :String,user_id: Int) : this(
+//    constructor(title : String, content :String,user_id: String) : this(
 //        0,
 //        title,
 //        content,
