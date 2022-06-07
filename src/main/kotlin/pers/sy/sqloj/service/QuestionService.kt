@@ -25,6 +25,10 @@ class QuestionService
         return questionMapper.getByID(id) ?: throw QuestionNotFoundException()
     }
 
+    fun getByTestcaseID(id :Int):List<QuestionDO>{
+        return questionMapper.getByTestcaseID(id)?: throw QuestionNotFoundException()
+    }
+
     fun insert(entity: QuestionDO) {
         questionMapper.insert(entity)
     }

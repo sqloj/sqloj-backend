@@ -10,6 +10,7 @@
         <result column="content" property="content"/>
         <result column="answer" property="answer"/>
         <result column="testcase_id" property="testcaseID"/>
+        <result column="question_label" property="question_label"/>
     </resultMap>
 
     <resultMap id="question_testcase" type="pers.sy.sqloj.entity.QuestionVO">
@@ -22,6 +23,7 @@
         <result column="testcase_content" property="testcaseContent"/>
         <result column="judge_type_id" property="typeID"/>
         <result column="type_name" property="typeName"/>
+        <result column="question_label" property="question_label"/>
     </resultMap>
 
 
@@ -59,6 +61,11 @@
         where id = #{id}
     </select>
 
+    <select id="getByTestcaseID" resultMap="question">
+        select *
+        from question
+        where testcase_id = #{id}
+    </select>
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into `question` values
             (null, #{content}, #{answer}, #{testcaseID})
@@ -69,6 +76,7 @@
         set t.content     = #{content},
             t.answer      = #{answer},
             t.testcase_id = #{testcaseID}
+            t.
         where t.id = #{id}
     </update>
 

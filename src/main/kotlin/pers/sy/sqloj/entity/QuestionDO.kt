@@ -4,7 +4,8 @@ data class QuestionDO(
     val id: Int,
     var content: String,
     var answer: String,
-    var testcaseID: Int
+    var testcaseID: Int,
+    var question_label: String
 )
 
 data class QuestionVO(
@@ -12,6 +13,7 @@ data class QuestionVO(
     var content: String,
     var answer: String,
     var testcaseID: Int,
+    var question_label: String,
     var testcaseAbstract: String,
     var testcaseContent: String,
     var label: String,

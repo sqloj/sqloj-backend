@@ -15,6 +15,8 @@ interface QuestionMapper {
 
     fun getByID(id: Int): QuestionVO?
 
+    fun getByTestcaseID(id :Int) :List<QuestionDO>?
+
     fun update(entity: QuestionDO)
 
     fun insert(entity: QuestionDO)

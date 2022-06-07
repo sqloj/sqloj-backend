@@ -44,7 +44,19 @@ class QuestionController @Autowired constructor(
             return VResponse.err(1, "题目不存在")
         }
     }
-
+    @GetMapping("/info2/{testcase-id}")
+    @Operation(summary = "题目信息")
+    @ApiResponse(description = "题目信息")
+    fun info2(
+        @PathVariable("testcase-id") @Parameter(description = "测试用例 ID") id: Int
+    ): VResponse<Any?> {
+        try {
+            val question = questionService.getByTestcaseID(id)
+            return VResponse.ok(question)
+        } catch (e: QuestionNotFoundException) {
+            return VResponse.err(1, "题目不存在")
+        }
+    }
     @PostMapping("/insert")
     @Operation(summary = "增加题目")
     fun insert(
