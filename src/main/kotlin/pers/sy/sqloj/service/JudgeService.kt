@@ -36,7 +36,7 @@ class JudgeService
         return judge(question, record)
     }
 
-    fun sumbit(code: String, questionID: Int, userID: String): RecordDO {
+    fun submit(code: String, questionID: Int, userID: String): RecordDO {
         val question = questionMapper.getByID(questionID) ?: throw QuestionNotFoundException()
         val record = RecordDO(userID, questionID, code)
         recordMapper.insert(record)

@@ -36,7 +36,7 @@ class SubmitController
         @RequestBody param: SubmitParam
     ): VResponse<Any?> {
         try {
-            val ret = judgeService.sumbit(param.code, param.questionID, param.userID)
+            val ret = judgeService.submit(param.code, param.questionID, param.userID)
             return VResponse.ok(ret)
         } catch (e: Exception) {
             return VResponse.err(1, "提交失败")
