@@ -25,7 +25,7 @@ class JudgeServerService
         val turl = "${entity.url}/api/ping?password=${entity.password}"
         val typeDef = object : ParameterizedTypeReference<VResponse<PingVO>>() {}
         val retT = restTemplate.exchange(turl, HttpMethod.POST, null, typeDef)
-        val ret = retT.body ?: throw Exception("MULL")
+        val ret = retT.body ?: throw Exception("NULL")
         if (ret.code != VResponse.OK || ret.data == null) {
             throw Exception(ret.toString())
         }
@@ -36,7 +36,10 @@ class JudgeServerService
         val ret = ping(entity)
         entity.typeID = ret.typeID
         entity.typeName = ret.typeName
+        val  userid = entity.user_id
+        val  id = entity.id;
         judgeServerMapper.insert(entity)
+        judgeServerMapper.insert2(userid , id)
     }
 
     fun update(entity: JudgeServerDO) {
@@ -45,6 +48,7 @@ class JudgeServerService
 
     fun delete(id: Int) {
         judgeServerMapper.delete(id)
+        judgeServerMapper.delete2(id)
     }
 
     fun support(): List<JudgeServerDO> {

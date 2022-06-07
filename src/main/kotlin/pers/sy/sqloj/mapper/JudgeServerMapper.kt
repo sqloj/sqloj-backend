@@ -13,9 +13,13 @@ interface JudgeServerMapper {
 
     fun insert(entity: JudgeServerDO)
 
+    fun insert2(user_id :Int, id : Int)
+
     fun update(entity: JudgeServerDO)
 
     fun delete(id: Int)
+
+    fun delete2(id : Int)
 
     fun filterByTypeID(typeID: Int): List<JudgeServerDO>
 

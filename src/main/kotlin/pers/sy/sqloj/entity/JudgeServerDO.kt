@@ -5,7 +5,8 @@ data class JudgeServerDO(
     var url: String,
     var password: String,
     var typeID: Int,
-    var typeName: String
+    var typeName: String,
+    val user_id : Int
 ) {
     companion object {
         const val TYPE_MARIADB = 1
