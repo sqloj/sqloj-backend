@@ -3,18 +3,29 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="pers.sy.sqloj.mapper.UserMapper">
-
+<mapper namespace="pers.sy.sqloj.mapper.UserMapper"> <!---定位mapper-->
+    <!---resultMap：用于设置数据库返回列和Java对象的映射关系。-->
     <resultMap id="user" type="pers.sy.sqloj.entity.UserDO">
+        <!---type 属性表示需要的 POJO，id 属性是 resultMap 的唯一标识。
+            column：从数据库中得到的列名或者列的别名。
+            property：要映射到的列结果的属性，即Java对象模型的属性。
+            把数据库数据映射到java里-->
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
+        <result column="submit_num" property="submit_num"/>
+        <result column="past_num" property="pass_num"/>
         <result column="department" property="department"/>
+        <result column="signature" property="signature"/>
         <result column="role" property="role"/>
     </resultMap>
 
+    <!---select：映射查询语句使用的标签。
+                id:它和 Mapper 的命名空间组合起来使用，是唯一标识符，供 MyBatis 调用
+            	resultMap:它是映射集的引用，与 <resultMap> 元素一起使用，返回时可以使用 resultType 或 resultMap 之一-->
     <select id="list" resultMap="user">
-        select * from `user`
+        select *
+        from `user`
     </select>
 
     <select id="findByID" resultMap="user">
@@ -44,14 +55,18 @@
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into `user` values
-        (#{id}, #{username}, #{password}, #{department}, #{role})
+            (#{id}, #{username}, #{password}, #{department},#{signature},#{pass_num},#{submit_num},  #{role})
     </insert>
 
     <update id="update">
         update `user` t
         set t.password   = #{password},
             t.department = #{department},
-            t.username   = #{username}
+            t.username   = #{username},
+            t.pass_num = #{pass_num},
+            t.submit_num = #{submit_num},
+            t.signature = #{signature},
+            t.role = #{role}
         where t.id = #{id}
     </update>
 
