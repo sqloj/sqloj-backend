@@ -88,3 +88,23 @@ INSERT INTO judge_type VALUES
     (3, 'MySQL'),
     (4, 'SQLite'),
     (5, 'H2 Database');
+
+CREATE TABLE article (
+    `id`               int auto_increment primary key,
+    `user_id`          nvarchar(32),
+    `title`            nvarchar(50),
+    `content`          text,
+    `update_time`      datetime,
+    FOREIGN KEY (user_id) REFERENCES `user`(id)
+);
+
+CREATE VIEW article_detail AS
+SELECT
+    article.id,
+    article.user_id,
+    `user`.username,
+    article.title,
+    article.content,
+    article.update_time
+from `article`
+left join `user` on article.user_id = `user`.id;
