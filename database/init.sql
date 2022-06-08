@@ -17,8 +17,15 @@ CREATE TABLE `user` (
     `username`     nvarchar(32),
     `password`     nvarchar(80),
     `department`   nvarchar(32),
-    `signature`  nvarchar(128),
+    `signature`    nvarchar(128),
     `role`         int
+);
+
+CREATE TABLE `student` (
+    `user_id`    nvarchar(32),
+    `submit_num` int,
+    `pass_num`   int,
+    FOREIGN KEY (user_id) REFERENCES `user`(id)
 );
 
 INSERT INTO user VALUES
@@ -28,6 +35,10 @@ INSERT INTO user VALUES
     ('202082011012', 'test1', 'test1', '测试组','', 1),
     ('202084312122', 'test2', 'test2', '测试组','', 1);
 
+INSERT INTO `student` VALUES
+    ('test', 0, 0),
+    ('202082011012', 0, 0),
+    ('202084312122', 0, 0);
 
 CREATE TABLE judge_type (
     `id`           int auto_increment primary key,
@@ -112,3 +123,59 @@ SELECT
     article.update_time
 FROM `article`
 LEFT JOIN `user` on article.user_id = `user`.id;
+
+CREATE VIEW student_detail AS
+SELECT
+    `user`.id,
+    `user`.username,
+    `user`.department,
+    `user`.signature,
+    `student`.submit_num,
+    `student`.pass_num,
+    `user`.role
+FROM student
+LEFT JOIN `user` on student.user_id = `user`.id;
+
+CREATE TRIGGER record_add
+    AFTER INSERT ON record FOR EACH ROW
+BEGIN
+    DECLARE stu_role INT;
+    SELECT `role` INTO stu_role
+        FROM `user`
+        WHERE `user`.id = NEW.user_id;
+    IF `stu_role` = 1 THEN
+        UPDATE student
+        SET submit_num = submit_num + 1
+        WHERE student.user_id = NEW.user_id;
+    END IF;
+END;
+
+DELIMITER ;;
+CREATE PROCEDURE proc_update_ac(
+    IN user_id nvarchar(32)
+)
+BEGIN
+    DECLARE ac_count INT;
+    SELECT count(DISTINCT question_id) INTO ac_count
+    FROM record
+    WHERE
+        result = 1
+        and record.user_id = user_id;
+
+    UPDATE student
+    SET pass_num = ac_count
+    WHERE user_id = student.user_id;
+END;;
+DELIMITER ;
+
+
+CREATE TRIGGER record_update
+    AFTER UPDATE ON record FOR EACH ROW
+BEGIN
+    DECLARE stu_role INT;
+    SELECT `role` INTO stu_role FROM `user` WHERE `user`.id = NEW.user_id;
+    IF `stu_role` = 1 THEN
+        CALL proc_update_ac(NEW.user_id);
+    END IF;
+END;
+

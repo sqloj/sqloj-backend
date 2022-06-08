@@ -35,8 +35,8 @@
 
     <update id="update">
         update `record` t
-        set t.result     = #{result}
-        where t.id = #{id}
+        set t.result   = #{result}
+        where t.id     = #{id}
     </update>
 
     <delete id="delete">
