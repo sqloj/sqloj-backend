@@ -45,6 +45,19 @@
         from question
     </select>
 
+    <select id="filter" resultMap="question">
+        select *
+        from question
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="testcaseID != null">
+                and testcase_id = #{testcaseID}
+            </if>
+        </where>
+    </select>
+
 
     <select id="listVO" resultMap="question_testcase">
         <include refid="selectAll"/>

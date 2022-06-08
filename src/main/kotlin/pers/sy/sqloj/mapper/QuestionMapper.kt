@@ -1,6 +1,7 @@
 package pers.sy.sqloj.mapper
 
 import org.apache.ibatis.annotations.Mapper
+import pers.sy.sqloj.api.param.QuestionFilterParam
 import pers.sy.sqloj.entity.QuestionDO
 import pers.sy.sqloj.entity.QuestionVO
 
@@ -18,4 +19,6 @@ interface QuestionMapper {
     fun update(entity: QuestionDO)
 
     fun insert(entity: QuestionDO)
+
+    fun filter(param: QuestionFilterParam): List<QuestionDO>
 }
