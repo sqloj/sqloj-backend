@@ -46,8 +46,8 @@ class JudgeService
     fun test(code: String, testcaseID: Int): DBType? {
         val testcase = testcaseMapper.getByID(testcaseID) ?: throw TestcaseNotFoundException()
         val statement = "${testcase.abstract} ; ${testcase.content} ; $code"
-        val typeID = testcase.typeID
-        return exec(statement, typeID)
+        val judgeTypeID = testcase.judgeTypeID
+        return exec(statement, judgeTypeID)
     }
 
     fun judge(question: QuestionVO, record: RecordDO): RecordDO {
@@ -55,8 +55,8 @@ class JudgeService
         val codeTeacher = "$codeQuestion ; ${question.answer}"
         val codeStudent = "$codeQuestion ; ${record.code}"
         try {
-            val retStudent = exec(codeStudent, question.typeID)
-            val retTeacher = exec(codeTeacher, question.typeID)
+            val retStudent = exec(codeStudent, question.judgeTypeID)
+            val retTeacher = exec(codeTeacher, question.judgeTypeID)
             if (retStudent == retTeacher) {
                 record.result = RecordDO.RESULT_ACCEPT
             } else {
@@ -72,16 +72,16 @@ class JudgeService
         return record
     }
 
-    fun randomServer(typeID: Int): JudgeServerDO {
-        val servers = judgeServerMapper.filterByTypeID(typeID)
+    fun randomServer(judgeTypeID: Int): JudgeServerDO {
+        val servers = judgeServerMapper.filterByjudgeTypeID(judgeTypeID)
         if (servers.isEmpty()) {
             throw NoSuchJudgeServerException("没有对应的服务器")
         }
         return servers.random()
     }
 
-    fun exec(statement: String, typeID: Int): DBType? {
-        val server = randomServer(typeID)
+    fun exec(statement: String, judgeTypeID: Int): DBType? {
+        val server = randomServer(judgeTypeID)
         return exec(statement, server.url, server.password)
     }
 

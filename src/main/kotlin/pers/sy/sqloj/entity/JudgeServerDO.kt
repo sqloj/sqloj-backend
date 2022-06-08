@@ -4,7 +4,7 @@ data class JudgeServerDO(
     val id: Int,
     var url: String,
     var password: String,
-    var typeID: Int,
+    var judgeTypeID: Int,
     var typeName: String
 ) {
     companion object {

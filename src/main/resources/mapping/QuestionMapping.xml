@@ -20,7 +20,7 @@
         <result column="label" property="label"/>
         <result column="testcase_abstract" property="testcaseAbstract"/>
         <result column="testcase_content" property="testcaseContent"/>
-        <result column="type_id" property="typeID"/>
+        <result column="judge_type_id" property="judgeTypeID"/>
         <result column="type_name" property="typeName"/>
     </resultMap>
 
@@ -33,11 +33,11 @@
                testcase.abstract as testcase_acstract,
                testcase.content  as testcase_content,
                testcase.label,
-               testcase.type_id,
+               testcase.judge_type_id,
                judge_type.name   as type_name
         from question
         left join testcase on question.testcase_id = testcase.id
-        left join judge_type on testcase.type_id = judge_type.id
+        left join judge_type on testcase.judge_type_id = judge_type.id
     </sql>
 
     <select id="listDO" resultMap="question">

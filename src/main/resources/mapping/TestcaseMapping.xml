@@ -10,7 +10,7 @@
         <result column="label" property="content"/>
         <result column="abstract" property="abstract"/>
         <result column="content" property="content"/>
-        <result column="type_id" property="typeID"/>
+        <result column="judge_type_id" property="judgeTypeID"/>
         <result column="type_name" property="typeName"/>
     </resultMap>
 
@@ -19,10 +19,10 @@
                label,
                abstract,
                content,
-               type_id,
+               judge_type_id,
                judge_type.name as type_name
         from testcase
-        left join judge_type on testcase.type_id = judge_type.id
+        left join judge_type on testcase.judge_type_id = judge_type.id
     </sql>
 
     <select id="list" resultMap="testcaseDO">
@@ -36,7 +36,7 @@
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into `testcase`
-        values (null, #{label}, #{abstract}, #{content}, #{typeID})
+        values (null, #{label}, #{abstract}, #{content}, #{judgeTypeID})
     </insert>
 
     <update id="update">
@@ -44,7 +44,7 @@
         set t.label    = #{label},
             t.abstract = #{abstract},
             t.content  = #{content},
-            t.type_id  = #{typeID}
+            t.judge_type_id  = #{judgeTypeID}
         where t.id = #{id}
     </update>
 

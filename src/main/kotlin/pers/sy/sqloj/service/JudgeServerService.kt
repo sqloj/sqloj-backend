@@ -34,7 +34,7 @@ class JudgeServerService
 
     fun insert(entity: JudgeServerDO) {
         val ret = ping(entity)
-        entity.typeID = ret.typeID
+        entity.judgeTypeID = ret.judgeTypeID
         entity.typeName = ret.typeName
         judgeServerMapper.insert(entity)
     }

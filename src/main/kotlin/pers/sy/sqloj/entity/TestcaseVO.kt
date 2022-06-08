@@ -5,7 +5,7 @@ data class TestcaseVO(
     var label: String,
     var abstract: String,
     var content: String,
-    var typeID: Int,
+    var judgeTypeID: Int,
     val typeName: String
 ) {
     companion object {
