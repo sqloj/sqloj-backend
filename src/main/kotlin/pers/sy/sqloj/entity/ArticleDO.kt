@@ -14,6 +14,7 @@ data class ArticleVO(
     val id: Int,
     val userID: String,
     val username: String,
+    val signature: String,
     var title: String,
     var content: String,
     val updateTime: LocalDateTime

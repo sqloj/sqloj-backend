@@ -3,6 +3,7 @@ package pers.sy.sqloj.service
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pers.sy.sqloj.entity.UserDO
+import pers.sy.sqloj.entity.UserVO
 import pers.sy.sqloj.exception.UserAlreadyExistsException
 import pers.sy.sqloj.exception.UserNotFoundException
 import pers.sy.sqloj.exception.UserVerifyFailedException
@@ -34,7 +35,7 @@ class UserService
         return true
     }
 
-    fun list(): List<UserDO> {
+    fun list(): List<UserVO> {
         return userMapper.list()
     }
 
@@ -60,7 +61,7 @@ class UserService
         userMapper.insert(user)
     }
 
-    fun filter(id: String?, username: String?, department: String?, role: Int?): List<UserDO> {
+    fun filter(id: String?, username: String?, department: String?, role: Int?): List<UserVO> {
         return userMapper.filter(id, username, department, role)
     }
 }

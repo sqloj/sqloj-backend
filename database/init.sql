@@ -17,15 +17,16 @@ CREATE TABLE `user` (
     `username`     nvarchar(32),
     `password`     nvarchar(80),
     `department`   nvarchar(32),
+    `signature`  nvarchar(128),
     `role`         int
 );
 
 INSERT INTO user VALUES
-    ('admin',  '老师', 'admin', '管理员', 2),
-    ('tourist', 'tourist', 'tourist', 'cf特色班', 2),
-    ('test', '学生',  'test',  '测试组', 1),
-    ('202082011012', 'test1', 'test1', '测试组', 1),
-    ('202084312122', 'test2', 'test2', '测试组', 1);
+    ('admin', '老师', 'admin', '管理员','', 2),
+    ('tourist', 'tourist', 'tourist', 'cf特色班','', 2),
+    ('test', '学生', 'test', '测试组','', 1),
+    ('202082011012', 'test1', 'test1', '测试组','', 1),
+    ('202084312122', 'test2', 'test2', '测试组','', 1);
 
 
 CREATE TABLE judge_type (
@@ -105,6 +106,7 @@ SELECT
     article.id,
     article.user_id,
     `user`.username,
+    `user`.signature,
     article.title,
     article.content,
     article.update_time

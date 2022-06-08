@@ -17,6 +17,7 @@
         <id column="id" property="id"/>
         <result column="user_id" property="userID"/>
         <result column="username" property="username"/>
+        <result column="signature" property="signature"/>
         <result column="title" property="title"/>
         <result column="content" property="content"/>
         <result column="update_time" property="updateTime"/>

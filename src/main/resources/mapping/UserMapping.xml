@@ -5,25 +5,35 @@
 
 <mapper namespace="pers.sy.sqloj.mapper.UserMapper">
 
-    <resultMap id="user" type="pers.sy.sqloj.entity.UserDO">
+    <resultMap id="userDO" type="pers.sy.sqloj.entity.UserDO">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="department" property="department"/>
+        <result column="signature" property="signature"/>
         <result column="role" property="role"/>
     </resultMap>
 
-    <select id="list" resultMap="user">
-        select * from `user`
+    <resultMap id="userVO" type="pers.sy.sqloj.entity.UserVO">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="department" property="department"/>
+        <result column="signature" property="signature"/>
+        <result column="role" property="role"/>
+    </resultMap>
+
+    <select id="list" resultMap="userVO">
+        select *
+        from `user`
     </select>
 
-    <select id="findByID" resultMap="user">
+    <select id="findByID" resultMap="userDO">
         select *
         from `user`
         where id = #{id}
     </select>
 
-    <select id="filter" resultMap="user">
+    <select id="filter" resultMap="userVO">
         select *
         from `user`
         <where>
@@ -43,20 +53,23 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into `user` values
-        (#{id}, #{username}, #{password}, #{department}, #{role})
+        insert into `user`
+        values (#{id}, #{username}, #{password}, #{department}, #{signature}, #{role})
     </insert>
 
     <update id="update">
         update `user` t
         set t.password   = #{password},
             t.department = #{department},
+            t.signature  = #{signature},
             t.username   = #{username}
         where t.id = #{id}
     </update>
 
     <delete id="delete">
-        delete from `user` where id = #{id}
+        delete
+        from `user`
+        where id = #{id}
     </delete>
 
 </mapper>

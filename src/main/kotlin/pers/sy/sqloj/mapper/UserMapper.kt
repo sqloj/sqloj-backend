@@ -2,6 +2,7 @@ package pers.sy.sqloj.mapper
 
 import org.apache.ibatis.annotations.Mapper
 import pers.sy.sqloj.entity.UserDO
+import pers.sy.sqloj.entity.UserVO
 
 @Mapper
 interface UserMapper {
@@ -14,6 +15,7 @@ interface UserMapper {
 
     fun insert(entity: UserDO)
 
-    fun list(): List<UserDO>
-    fun filter(id: String?, username: String?, department: String?, role: Int?): List<UserDO>
+    fun list(): List<UserVO>
+
+    fun filter(id: String?, username: String?, department: String?, role: Int?): List<UserVO>
 }
