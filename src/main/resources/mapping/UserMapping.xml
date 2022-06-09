@@ -52,7 +52,7 @@
         </where>
     </select>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert">
         insert into `user`
         values (#{id}, #{username}, #{password}, #{department}, #{signature}, #{role})
     </insert>

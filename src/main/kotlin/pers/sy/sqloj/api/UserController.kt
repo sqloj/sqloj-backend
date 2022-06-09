@@ -36,14 +36,11 @@ class UserController
     }
 
     @PostMapping("/register")
-    @Operation(summary = "用户登录")
+    @Operation(summary = "用户注册")
     @ApiResponse(description = "用户信息")
     fun register(
-        @RequestBody @Parameter(description = "用户 ID") entity: UserDO
+        @RequestBody @Parameter(description = "用户信息") entity: UserDO
     ): VResponse<Any?> {
-        if (entity.role != UserDO.STUDENT) {
-            return VResponse.err(2, "用户组错误")
-        }
         try {
             userService.register(entity)
             return VResponse.ok(entity)
