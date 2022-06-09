@@ -1,11 +1,11 @@
 package pers.sy.sqloj.api
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import pers.sy.sqloj.api.param.SubmitParam
-import pers.sy.sqloj.api.param.SubmitTestParam
+import pers.sy.sqloj.api.param.*
 import pers.sy.sqloj.service.JudgeService
 import pers.sy.sqloj.util.VResponse
 
@@ -41,6 +41,39 @@ class SubmitController
         } catch (e: Exception) {
             return VResponse.err(1, "提交失败")
         }
+    }
+
+    @PostMapping("/testcase")
+    @Operation(summary = "测试集运行")
+    fun execTestcase(
+        @RequestBody param: SubmitTestcaseParam
+    ): VResponse<Any?> {
+        try {
+            val statement = "${param.abstract} ; ${param.content} ;"
+            val ret = judgeService.exec(statement, param.judgeTypeID)
+            return VResponse.ok(ret)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return VResponse.err(1, e.message)
+        }
+    }
+
+    @PostMapping("/filter")
+    @Operation(summary = "提交查找")
+    fun filter(
+        @RequestBody @Parameter(description = "提交信息") param: SubmitSearchParam
+    ): VResponse<Any?> {
+        val ret = judgeService.filter(param)
+        return VResponse.ok(ret)
+    }
+
+    @PostMapping("/count")
+    @Operation(summary = "提交统计")
+    fun count(
+        @RequestBody @Parameter(description = "提交信息") param: SubmitCountParam
+    ): VResponse<Any?> {
+        val ret = judgeService.count(param)
+        return VResponse.ok(ret)
     }
 
     @PostMapping("/rejudge")

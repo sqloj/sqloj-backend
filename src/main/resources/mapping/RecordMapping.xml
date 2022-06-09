@@ -23,6 +23,28 @@
         <include refid="selectAll"/>
     </select>
 
+    <select id="filter" resultMap="RecordDO">
+        select *
+        from `record`
+        <where>
+            <if test="questionID != null">
+                and question_id = #{questionID}
+            </if>
+            <if test="userID != null">
+                and user_id = #{userID}
+            </if>
+            <if test="result != null">
+                and result = #{result}
+            </if>
+        </where>
+    </select>
+
+    <select id="count" resultType="Int">
+        select COUNT(*)
+        from `record`
+        where user_id = #{userID} and result = #{result}
+    </select>
+
     <select id="getByID" resultMap="RecordDO">
         <include refid="selectAll"/>
         where record.id = #{id}
