@@ -153,21 +153,22 @@ FROM question
 LEFT JOIN testcase on question.testcase_id = testcase.id
 LEFT JOIN judge_type on testcase.judge_type_id = judge_type.id;
 
-CREATE TRIGGER record_add
-    AFTER INSERT ON record FOR EACH ROW
+DELIMITER ;;
+
+CREATE TRIGGER `record_add`
+    AFTER INSERT ON `record` FOR EACH ROW
 BEGIN
-    DECLARE stu_role INT;
-    SELECT `role` INTO stu_role
+    DECLARE `stu_role` INT;
+    SELECT `role` INTO `stu_role`
         FROM `user`
         WHERE `user`.id = NEW.user_id;
     IF `stu_role` = 1 THEN
-        UPDATE student
-        SET submit_num = submit_num + 1
-        WHERE student.user_id = NEW.user_id;
+        UPDATE `student`
+        SET `submit_num` = `submit_num` + 1
+        WHERE `student`.user_id = NEW.user_id;
     END IF;
-END;
+END;;
 
-DELIMITER ;;
 CREATE PROCEDURE proc_update_ac(
     IN user_id nvarchar(32)
 )
@@ -183,7 +184,6 @@ BEGIN
     SET pass_num = ac_count
     WHERE user_id = student.user_id;
 END;;
-DELIMITER ;
 
 
 CREATE TRIGGER record_update
@@ -194,5 +194,6 @@ BEGIN
     IF `stu_role` = 1 THEN
         CALL proc_update_ac(NEW.user_id);
     END IF;
-END;
+END;;
 
+DELIMITER ;
