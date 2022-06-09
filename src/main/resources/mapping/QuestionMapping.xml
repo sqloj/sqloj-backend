@@ -10,9 +10,10 @@
         <result column="content" property="content"/>
         <result column="answer" property="answer"/>
         <result column="testcase_id" property="testcaseID"/>
+        <result column="label" property="label"/>
     </resultMap>
 
-    <resultMap id="question_testcase" type="pers.sy.sqloj.entity.QuestionVO">
+    <resultMap id="QuestionVO" type="pers.sy.sqloj.entity.QuestionVO">
         <id column="id" property="id"/>
         <result column="content" property="content"/>
         <result column="answer" property="answer"/>
@@ -20,51 +21,50 @@
         <result column="label" property="label"/>
         <result column="testcase_abstract" property="testcaseAbstract"/>
         <result column="testcase_content" property="testcaseContent"/>
-        <result column="type_id" property="typeID"/>
+        <result column="testcase_label" property="testcaseLabel"/>
+        <result column="judge_type_id" property="judgeTypeID"/>
         <result column="type_name" property="typeName"/>
     </resultMap>
-
-
-    <sql id="selectAll">
-        select question.id,
-               question.content,
-               answer,
-               testcase_id,
-               testcase.abstract as testcase_acstract,
-               testcase.content  as testcase_content,
-               testcase.label,
-               testcase.type_id,
-               judge_type.name   as type_name
-        from question
-        left join testcase on question.testcase_id = testcase.id
-        left join judge_type on testcase.type_id = judge_type.id
-    </sql>
 
     <select id="listDO" resultMap="question">
         select *
         from question
     </select>
 
-
-    <select id="listVO" resultMap="question_testcase">
-        <include refid="selectAll"/>
+    <select id="filter" resultMap="question">
+        select *
+        from question
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="testcaseID != null">
+                and testcase_id = #{testcaseID}
+            </if>
+        </where>
     </select>
 
-    <select id="getByID" resultMap="question_testcase">
-        <include refid="selectAll"/>
-        where question.id = #{id}
+
+    <select id="listVO" resultMap="QuestionVO">
+        select * from question_detail
+    </select>
+
+    <select id="getByID" resultMap="QuestionVO">
+        select * from question_detail
+        where id = #{id}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into `question` values
-        (null, #{content}, #{answer}, #{testcaseID})
+        (null, #{content}, #{answer}, #{testcaseID}, #{label})
     </insert>
 
     <update id="update">
         update `question` t
         set t.content     = #{content},
             t.answer      = #{answer},
-            t.testcase_id = #{testcaseID}
+            t.testcase_id = #{testcaseID},
+            t.label       = #{label}
         where t.id = #{id}
     </update>
 

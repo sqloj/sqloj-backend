@@ -3,15 +3,18 @@ package pers.sy.sqloj.service
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pers.sy.sqloj.entity.UserDO
+import pers.sy.sqloj.entity.UserVO
 import pers.sy.sqloj.exception.UserAlreadyExistsException
 import pers.sy.sqloj.exception.UserNotFoundException
 import pers.sy.sqloj.exception.UserVerifyFailedException
+import pers.sy.sqloj.mapper.StudentMapper
 import pers.sy.sqloj.mapper.UserMapper
 
 @Service
 class UserService
 @Autowired constructor(
-    val userMapper: UserMapper
+    val userMapper: UserMapper,
+    val studentMapper: StudentMapper
 ) {
 
     private fun getUserByID(id: String): UserDO {
@@ -34,7 +37,7 @@ class UserService
         return true
     }
 
-    fun list(): List<UserDO> {
+    fun list(): List<UserVO> {
         return userMapper.list()
     }
 
@@ -49,6 +52,9 @@ class UserService
 
     fun delete(id: String) {
         val user = getUserByID(id)
+        if (user.role == UserDO.STUDENT) {
+            studentMapper.delete(user.id)
+        }
         userMapper.delete(id)
     }
 
@@ -58,9 +64,12 @@ class UserService
             throw UserAlreadyExistsException()
         }
         userMapper.insert(user)
+        if (user.role == UserDO.STUDENT) {
+            studentMapper.insert(user.id)
+        }
     }
 
-    fun filter(id: String?, username: String?, department: String?, role: Int?): List<UserDO> {
+    fun filter(id: String?, username: String?, department: String?, role: Int?): List<UserVO> {
         return userMapper.filter(id, username, department, role)
     }
 }

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import pers.sy.sqloj.api.param.QuestionFilterParam
 import pers.sy.sqloj.entity.QuestionDO
 import pers.sy.sqloj.exception.QuestionNotFoundException
 import pers.sy.sqloj.service.QuestionService
@@ -43,6 +44,16 @@ class QuestionController @Autowired constructor(
         } catch (e: QuestionNotFoundException) {
             return VResponse.err(1, "题目不存在")
         }
+    }
+
+    @PostMapping("/filter")
+    @Operation(summary = "题目信息")
+    @ApiResponse(description = "题目信息")
+    fun filter(
+        @RequestBody @Parameter(description = "题目信息") param: QuestionFilterParam
+    ): VResponse<Any?> {
+        val questions = questionService.filter(param)
+        return VResponse.ok(questions)
     }
 
     @PostMapping("/insert")

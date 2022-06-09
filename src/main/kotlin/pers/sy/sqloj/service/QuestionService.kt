@@ -2,6 +2,7 @@ package pers.sy.sqloj.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import pers.sy.sqloj.api.param.QuestionFilterParam
 import pers.sy.sqloj.entity.QuestionDO
 import pers.sy.sqloj.entity.QuestionVO
 import pers.sy.sqloj.exception.QuestionNotFoundException
@@ -36,5 +37,9 @@ class QuestionService
     fun delete(id: Int) {
         val question = getByID(id)
         questionMapper.delete(id)
+    }
+
+    fun filter(param: QuestionFilterParam): List<QuestionDO> {
+        return questionMapper.filter(param)
     }
 }

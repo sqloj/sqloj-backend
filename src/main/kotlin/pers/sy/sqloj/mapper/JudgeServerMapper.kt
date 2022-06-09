@@ -17,7 +17,7 @@ interface JudgeServerMapper {
 
     fun delete(id: Int)
 
-    fun filterByTypeID(typeID: Int): List<JudgeServerDO>
+    fun filterByjudgeTypeID(judgeTypeID: Int): List<JudgeServerDO>
 
     fun support(): List<JudgeServerDO>
 }
