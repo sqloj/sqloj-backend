@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.converter.StringHttpMessageConverter
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
+import pers.sy.sqloj.api.param.SubmitCountParam
+import pers.sy.sqloj.api.param.SubmitSearchParam
 import pers.sy.sqloj.entity.JudgeServerDO
 import pers.sy.sqloj.entity.QuestionVO
 import pers.sy.sqloj.entity.RecordDO
@@ -105,5 +107,13 @@ class JudgeService
 
     fun list(): List<RecordDO> {
         return recordMapper.list()
+    }
+
+    fun filter(param: SubmitSearchParam): List<RecordDO> {
+        return recordMapper.filter(param)
+    }
+
+    fun count(param: SubmitCountParam): Int {
+        return recordMapper.count(param)
     }
 }
