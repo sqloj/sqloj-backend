@@ -27,13 +27,13 @@
         select *
         from `record`
         <where>
-            <if test="questionID != null">
+            <if test="questionID != null and questionID != ''">
                 and question_id = #{questionID}
             </if>
-            <if test="userID != null">
+            <if test="userID != null and userID != ''">
                 and user_id = #{userID}
             </if>
-            <if test="result != null">
+            <if test="result != null and result != ''">
                 and result = #{result}
             </if>
         </where>
