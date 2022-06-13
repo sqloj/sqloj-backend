@@ -8,7 +8,6 @@ set collation_database = utf8_general_ci;
 set collation_server = utf8_general_ci;
 set time_zone = "+8:00";
 
-drop database sqloj;
 CREATE DATABASE sqloj;
 
 USE sqloj;
