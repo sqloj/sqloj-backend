@@ -13,5 +13,6 @@ data class JudgeServerDO(
         const val TYPE_MYSQL = 3
         const val TYPE_SQLITE = 4
         const val TYPE_H2 = 5
+        const val TYPE_REDIS = 6
     }
 }

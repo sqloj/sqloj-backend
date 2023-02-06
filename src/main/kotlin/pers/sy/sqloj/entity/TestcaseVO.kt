@@ -10,7 +10,10 @@ data class TestcaseVO(
 ) {
     companion object {
         const val TYPE_MARIADB = 1
-        const val TYPE_SQLSERVER = 2
-        const val TYPE_MYSQL = 2
+        const val TYPE_SQL_SERVER = 2
+        const val TYPE_MYSQL = 3
+        const val TYPE_SQLITE = 4
+        const val TYPE_H2 = 5
+        const val TYPE_REDIS = 6
     }
 }
