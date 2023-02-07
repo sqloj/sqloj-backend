@@ -9,6 +9,7 @@ import pers.sy.sqloj.api.param.SubmitSearchParam
 import pers.sy.sqloj.entity.JudgeServerDO
 import pers.sy.sqloj.entity.QuestionVO
 import pers.sy.sqloj.entity.RecordDO
+import pers.sy.sqloj.entity.TestcaseVO.Companion.TYPE_REDIS
 import pers.sy.sqloj.exception.*
 import pers.sy.sqloj.mapper.JudgeServerMapper
 import pers.sy.sqloj.mapper.QuestionMapper
@@ -47,15 +48,30 @@ class JudgeService
 
     fun test(code: String, testcaseID: Int): DBType? {
         val testcase = testcaseMapper.getByID(testcaseID) ?: throw TestcaseNotFoundException()
-        val statement = "${testcase.abstract} ; ${testcase.content} ; $code"
-        val judgeTypeID = testcase.judgeTypeID
-        return exec(statement, judgeTypeID)
+        return if(testcase.judgeTypeID == TYPE_REDIS) {
+            val statement = "${testcase.abstract} \n ${testcase.content} \n $code"
+            val judgeTypeID = testcase.judgeTypeID
+            exec(statement, judgeTypeID)
+        } else {
+            val statement = "${testcase.abstract} ; ${testcase.content} ; $code"
+            val judgeTypeID = testcase.judgeTypeID
+            exec(statement, judgeTypeID)
+        }
     }
 
     fun judge(question: QuestionVO, record: RecordDO): RecordDO {
-        val codeQuestion = "${question.testcaseAbstract} ; ${question.testcaseContent}"
-        val codeTeacher = "$codeQuestion ; ${question.answer}"
-        val codeStudent = "$codeQuestion ; ${record.code}"
+        var codeQuestion:String = ""
+        var codeTeacher:String = ""
+        var codeStudent:String = ""
+        if(question.judgeTypeID == TYPE_REDIS) {
+            codeQuestion = "${question.testcaseAbstract} \n ${question.testcaseContent}"
+            codeTeacher = "$codeQuestion \n ${question.answer}"
+            codeStudent = "$codeQuestion \n ${record.code}"
+        } else {
+            codeQuestion = "${question.testcaseAbstract} ; ${question.testcaseContent}"
+            codeTeacher = "$codeQuestion ; ${question.answer}"
+            codeStudent = "$codeQuestion ; ${record.code}"
+        }
         try {
             val retStudent = exec(codeStudent, question.judgeTypeID)
             val retTeacher = exec(codeTeacher, question.judgeTypeID)
