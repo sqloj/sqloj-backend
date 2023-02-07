@@ -34,13 +34,9 @@ INSERT INTO user VALUES
     ('tourist', 'tourist', 'tourist', 'cf特色班','NO.1', 2),
     ('ycy', 'ycy', 'ycy', '计算机','roger young', 2),
     ('zy', 'zy', 'zy', '新工科','', 1),
-    ('sy', 'sy', 'sy', '新工科','clumsy', 1),
-    ('202082011012', 'test1', 'test1', '测试组','', 1),
-    ('202084312122', 'test2', 'test2', '测试组','', 1);
+    ('sy', 'sy', 'sy', '新工科','clumsy', 1);
 
 INSERT INTO `student` VALUES
-    ('202082011012', 0, 0),
-    ('202084312122', 0, 0),
     ('zy', 0, 0),
     ('sy', 0, 0);
 
@@ -74,14 +70,14 @@ CREATE TABLE testcase(
 );
 
 insert into sqloj.testcase (id, label, abstract, content, judge_type_id)
-values  (1, '空表', '', '', 5),
+values  (1, '空表', '', '', 4),
         (2, '学生表', 'CREATE TABLE s(
     snum nvarchar(66),
     sname nvarchar(65)
 );', 'INSERT INTO s VALUES
 (''10086'', ''aa''),
 (''10085'', ''bb''),
-(''201305010101'', ''gg'');', 5),
+(''201305010101'', ''gg'');', 4),
         (3, '全校学生表', 'CREATE TABLE [dbo].[s](
 	[snum] [nchar](14) NOT NULL,
 	[sname] [nvarchar](50) NOT NULL,
