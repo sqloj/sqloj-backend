@@ -53,9 +53,8 @@ INSERT INTO judge_type VALUES
     (1, 'MariaDB'),
     (2, 'SQL Server'),
     (3, 'MySQL'),
-    (4, 'SQLite'),
-    (5, 'H2 Database'),
-    (6, 'REDIS');
+    (4, 'H2 Database'),
+    (5, 'REDIS');
 
 CREATE TABLE judge (
     `id`              int auto_increment primary key,
