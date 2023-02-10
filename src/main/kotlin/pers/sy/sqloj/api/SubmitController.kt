@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import pers.sy.sqloj.api.param.*
+import pers.sy.sqloj.entity.JudgeServerDO.Companion.TYPE_REDIS
 import pers.sy.sqloj.service.JudgeService
 import pers.sy.sqloj.util.VResponse
 
@@ -48,13 +49,19 @@ class SubmitController
     fun execTestcase(
         @RequestBody param: SubmitTestcaseParam
     ): VResponse<Any?> {
-        try {
-            val statement = "${param.abstract} ; ${param.content} ;"
-            val ret = judgeService.exec(statement, param.judgeTypeID)
-            return VResponse.ok(ret)
+        return try {
+            if(param.judgeTypeID == TYPE_REDIS) {
+                val statement = "${param.abstract} \n ${param.content} \n"
+                val ret = judgeService.exec(statement, param.judgeTypeID)
+                VResponse.ok(ret)
+            } else {
+                val statement = "${param.abstract} ; ${param.content} ;"
+                val ret = judgeService.exec(statement, param.judgeTypeID)
+                VResponse.ok(ret)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            return VResponse.err(1, e.message)
+            VResponse.err(1, e.message)
         }
     }
 

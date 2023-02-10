@@ -12,6 +12,7 @@ CREATE DATABASE sqloj;
 
 USE sqloj;
 
+# 用户信息
 CREATE TABLE `user` (
     `id`           nvarchar(32) primary key,
     `username`     nvarchar(32),
@@ -32,16 +33,10 @@ INSERT INTO user VALUES
     ('admin', '老师', 'admin', '管理员','我和我的日子都会发光。', 2),
     ('tourist', 'tourist', 'tourist', 'cf特色班','NO.1', 2),
     ('ycy', 'ycy', 'ycy', '计算机','roger young', 2),
-    ('gdj', 'gdj', 'gdj', '新工科','', 1),
     ('zy', 'zy', 'zy', '新工科','', 1),
-    ('sy', 'sy', 'sy', '新工科','', 1),
-    ('202082011012', 'test1', 'test1', '测试组','', 1),
-    ('202084312122', 'test2', 'test2', '测试组','', 1);
+    ('sy', 'sy', 'sy', '新工科','clumsy', 1);
 
 INSERT INTO `student` VALUES
-    ('202082011012', 0, 0),
-    ('202084312122', 0, 0),
-    ('gdj', 0, 0),
     ('zy', 0, 0),
     ('sy', 0, 0);
 
@@ -54,8 +49,8 @@ INSERT INTO judge_type VALUES
     (1, 'MariaDB'),
     (2, 'SQL Server'),
     (3, 'MySQL'),
-    (4, 'SQLite'),
-    (5, 'H2 Database');
+    (4, 'H2 Database'),
+    (5, 'REDIS');
 
 CREATE TABLE judge (
     `id`              int auto_increment primary key,
@@ -75,14 +70,14 @@ CREATE TABLE testcase(
 );
 
 insert into sqloj.testcase (id, label, abstract, content, judge_type_id)
-values  (1, '空表', '', '', 5),
+values  (1, '空表', '', '', 4),
         (2, '学生表', 'CREATE TABLE s(
     snum nvarchar(66),
     sname nvarchar(65)
 );', 'INSERT INTO s VALUES
 (''10086'', ''aa''),
 (''10085'', ''bb''),
-(''201305010101'', ''gg'');', 5),
+(''201305010101'', ''gg'');', 4),
         (3, '全校学生表', 'CREATE TABLE [dbo].[s](
 	[snum] [nchar](14) NOT NULL,
 	[sname] [nvarchar](50) NOT NULL,
@@ -297,7 +292,12 @@ SELECT snum, AVG(score)
 FROM sc
 GROUP BY snum;
 
-SELECT * FROM [stu_avg];', 3, '视图');
+SELECT * FROM [stu_avg];', 3, '视图'),
+        (8, '1. 利用事务，输出向学生表中插入一行信息（学号：''1''，姓名：''李华''，性别：''男''，学院编号：''1''）后的学生表，回滚后再输出学生表。', 'BEGIN TRANSACTION ;
+INSERT INTO s VALUES (''1'', ''李华'', ''男'', ''1'');
+SELECT * FROM s;
+ROLLBACK;
+SELECT * FROM s;', 3, '事务');
 
 CREATE TABLE record (
     `id`           int auto_increment primary key,
@@ -313,8 +313,7 @@ CREATE TABLE article (
     `user_id`          nvarchar(32),
     `title`            nvarchar(50),
     `content`          text,
-    `update_time`      datetime,
-    FOREIGN KEY (user_id) REFERENCES `user`(id)
+    `update_time`      datetime
 );
 
 insert into sqloj.article (id, user_id, title, content, update_time)
